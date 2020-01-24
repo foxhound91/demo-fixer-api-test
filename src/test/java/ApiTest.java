@@ -6,10 +6,11 @@ import java.util.Map;
 import java.util.Random;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class ApiTest {
 
-    private String url = "http://data.fixer.io/api";
+    private final String url = "http://data.fixer.io/api";
     private RequestSpecification requestSpecification;
 
     @Before
@@ -29,19 +30,30 @@ public class ApiTest {
 
     @Test
     public void testGetPricesForFiveCurrencies() {
-        requestSpecification.when().get(url + "/latest&symbols=USD,AUD,CAD,PLN,MXN").then().statusCode(200);
+        requestSpecification.when().get(url + "/latest&symbols=USD,AUD,CAD,PLN,MXN")
+                .then()
+                    .statusCode(200)
+                    .body("success", equalTo(true));
     }
 
     @Test
     public void testGetAllCurrencies() {
-        requestSpecification.when().get(url + "/latest").then().statusCode(200).log().ifError();
+        requestSpecification.when().get(url + "/latest")
+                .then()
+                    .statusCode(200)
+                    .body("success", equalTo(true));
     }
 
     @Test
     public void testTenRandomCurrenciesToCSV() throws Exception {
         CsvHelper csvHelper = new CsvHelper();
         Map<String, Float> currenciesMap;
-        currenciesMap = requestSpecification.when().get(url + "/latest").then().statusCode(200).extract().path("rates");
+
+        currenciesMap = requestSpecification.when().get(url + "/latest")
+                .then()
+                    .statusCode(200)
+                    .body("success", equalTo(true))
+                    .extract().path("rates");
 
         Random rand = new Random();
         for (int x = 0; x < 10; x++) {

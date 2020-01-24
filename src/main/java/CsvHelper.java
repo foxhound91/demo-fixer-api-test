@@ -5,7 +5,7 @@ public class CsvHelper {
 
     private BufferedWriter bw;
 
-    public CsvHelper() throws FileNotFoundException, UnsupportedEncodingException {
+    public CsvHelper() throws FileNotFoundException {
         bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("random_currency_rates.csv"), StandardCharsets.UTF_8));
     }
 
@@ -14,7 +14,6 @@ public class CsvHelper {
         bw.write(oneLine);
         bw.newLine();
         bw.flush();
-        //bw.close();
     }
 
 }
