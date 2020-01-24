@@ -1,0 +1,42 @@
+{
+  "definitions": {},
+  "type": "object",
+  "required": [
+    "success",
+    "timestamp",
+    "base",
+    "date",
+    "rates"
+  ],
+  "properties": {
+    "success": {
+      "type": "boolean"
+    },
+    "timestamp": {
+      "type": "integer"
+    },
+    "base": {
+      "type": "string",
+      "pattern": "^(.*)$"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "rates": {
+      "type": "object",
+      "required": [
+        "USD",
+        "AUD",
+        "CAD",
+        "PLN",
+        "MXN"
+      ],
+      "properties": {
+        ".+": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
