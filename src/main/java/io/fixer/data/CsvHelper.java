@@ -1,3 +1,5 @@
+package io.fixer.data;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
