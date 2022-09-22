@@ -73,7 +73,6 @@ public class ApiTest {
 
     @Test // Parse the JSON for 10 random Currencies and store the key and value into a CSV file
     public void testTenRandomCurrenciesToCSV() throws Exception {
-        CsvHelper csvHelper = new CsvHelper();
         Map<String, Float> currenciesMap;
 
         currenciesMap = requestSpecification.when().get(url + "/latest")
@@ -83,11 +82,12 @@ public class ApiTest {
                     .extract().path("rates");
 
         Random rand = new Random();
-        for (int x = 0; x < 10; x++) {
-            Object randomCurrency = currenciesMap.keySet().toArray()[rand.nextInt(currenciesMap.size())];
-            csvHelper.writeToCSV(randomCurrency.toString(), currenciesMap.get(randomCurrency));
+        try (CsvWriter csvHelper = new CsvWriter()){
+            for (int x = 0; x < 10; x++) {
+                Object randomCurrency = currenciesMap.keySet().toArray()[rand.nextInt(currenciesMap.size())];
+                csvHelper.writeToCSV(randomCurrency.toString(), currenciesMap.get(randomCurrency));
+            }
         }
-
     }
 
 }

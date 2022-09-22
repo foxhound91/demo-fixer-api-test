@@ -1,17 +1,18 @@
 package io.fixer.data;
 
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 
-public class CsvHelper {
+public class CsvWriter implements Closeable {
 
     private final BufferedWriter bw;
 
-    public CsvHelper() throws FileNotFoundException {
+    public CsvWriter() throws FileNotFoundException {
         bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("random_currency_rates.csv"), StandardCharsets.UTF_8));
     }
 
@@ -22,4 +23,8 @@ public class CsvHelper {
         bw.flush();
     }
 
+    @Override
+    public void close() throws IOException {
+        bw.close();
+    }
 }
